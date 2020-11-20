@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>To Do List</title>
+  <script src="js/jquery-2.1.3.min.js"></script>
+  <link rel='stylesheet' href='css/reset.css'>
+  <link rel="stylesheet" href="css/sample.css">
+</head>
+
+<body>
+  <header>
+    <h1>To Do List</h1>
+  </header>
+  
+  <div>
+    <label for="input-todo-box">Todoタスクの入力 : </label>
+    <input id="input-todo-box" type="text">
+
+    <button id="add-button">追加</button>
+    <button id="clear-button">削除</button>
+  </div>
+
+  <h2>現在のTodoリスト</h2>
+
+  <ul id="todo-list">
+      <!-- ここに追加データが挿入される -->
+  </ul>
+
+
+  <script>
+    //1.追加クリックイベント
+    $("#add-button").on("click", function () {
+
+    // val()で値を取得する
+    const key = $("#input-todo-box").val();
+
+    // html側で入力されたデータを取得して確認
+    console.log(key);
+
+    // データを保存する
+    // localStorage.setItem(xx, xx);
+    localStorage.setItem("aaa",key);
+
+    //現在のTodoリストに追加(テンプレートリテラルを使う)
+    const html = `
+    <li>
+    <span>${key}</span>
+    </li>`
+
+    //入力文字があれば、htmlに埋め込み、空白なら処理しない//→要確認 
+
+    // htmlに埋め込む
+    $("#todo-list").append(html);
+
+    // この↓消しちゃダメ
+    });
+
+
+
+    //2.clear クリックイベント
+    $("#clear-button").on('click', function () {
+    // 保存されたデータ（localStorage）を消す
+    localStorage.clear();
+
+    // 削除するときに、入力されている中身を空にする
+    //id="list"を削除する
+    $("#todo-list").empty();
+    
+    });
+
+
+
+    //3.ページ読み込み：保存データ取得表示
+    for (let i = 0; i < localStorage.length; i++) {
+    // 保存されたデータのkeyを取得
+    const key = localStorage.key(i);
+
+    // 何が入っているか確認してみよう☺️
+    console.log(key,'key');
+
+    // getItemのKeyを使って保存されたデータを全部取得
+    const value = localStorage.getItem(key);
+
+
+    const html = `
+    <li>
+    <span>${key}</span>
+    </li>`
+
+    // htmlに埋め込む
+    $("#todo-list").append(html);
+    $("#key").val("");
+
+    }
+   
+
+  </script>
+
+
+
+
+
+</body>
+
+</html>
